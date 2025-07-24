@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard Administrativo</title>
+    
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+     
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        
+        body {
+            background-color: #f8f9fa;
+        }
+        .stat-card {
+            transition: transform 0.2s;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+        .card-icon {
+            font-size: 2.5rem;
+            opacity: 0.8;
+        }
+        .chart-card {
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+        }
+        .navbar {
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        .loading {
+            opacity: 0.6;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#"><i class="fas fa-chart-line me-2"></i>Estadisticas</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="inicioSesion.php"><i class="fas fa-home me-1"></i>Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="opiniones.php"><i class="fas fa-users me-1"></i>Opiniones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="trabajos.php"><i class="fas fa-briefcase me-1"></i>Trabajos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contacto.php"><i class="fas fa-envelope me-1"></i>Contactos</a>
+                </li>
+                <li class="nav-item">
+                    <button class="btn btn-outline-light btn-sm ms-2" onclick="actualizarDashboard()" title="Actualizar datos">
+                        <i class="fas fa-sync-alt"></i> Actualizar
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid mt-4">
+    <h2 class="text-center mb-4">Dashboard Administrativo del Proyecto</h2>
+    
+    <!-- fijas/estadisticas -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card stat-card bg-primary text-white">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-uppercase text-white-50">Total Usuarios</div>
+                            <div class="stat-number" id="totalUsuarios">0</div>
+                            <div class="error-message" id="errorUsuarios"></div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-users card-icon"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card stat-card bg-success text-white">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-uppercase text-white-50">Total Trabajos</div>
+                            <div class="stat-number" id="totalTrabajos">0</div>
+                            <div class="error-message" id="errorTrabajos"></div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-briefcase card-icon"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card stat-card bg-info text-white">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-uppercase text-white-50">Total Contactos</div>
+                            <div class="stat-number" id="totalContactos">0</div>
+                            <div class="error-message" id="errorContactos"></div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-envelope card-icon"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card stat-card bg-warning text-white">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-uppercase text-white-50">Total Opiniones</div>
+                            <div class="stat-number" id="totalOpiniones">0</div>
+                            <div class="error-message" id="errorOpiniones"></div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-star card-icon"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Las graficas -->
+    <div class="row">
+        <!--trabajosXcategoría -->
+        <div class="col-lg-6 mb-4">
+            <div class="card chart-card">
+                <div class="card-header bg-white">
+                    <h5 class="card-title mb-0"><i class="fas fa-chart-bar me-2"></i>Trabajos por Categoría</h5>
+                </div>
+                <div class="card-body">
+                    <div id="graficoTrabajos"></div>
+                    <div class="error-message" id="errorGraficoTrabajos"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!--calificaciones -->
+        <div class="col-lg-6 mb-4">
+            <div class="card chart-card">
+                <div class="card-header bg-white">
+                    <h5 class="card-title mb-0"><i class="fas fa-chart-pie me-2"></i>Distribución de Calificaciones</h5>
+                </div>
+                <div class="card-body">
+                    <div id="graficoCalificaciones"></div>
+                    <div class="error-message" id="errorGraficoCalificaciones"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ContactosXmes -->
+        <div class="col-lg-8 mb-4">
+            <div class="card chart-card">
+                <div class="card-header bg-white">
+                    <h5 class="card-title mb-0"><i class="fas fa-chart-line me-2"></i>Evolución de Contactos por Mes (2025)</h5>
+                </div>
+                <div class="card-body">
+                    <div id="graficoContactos"></div>
+                    <div class="error-message" id="errorGraficoContactos"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- usuarios-->
+        <div class="col-lg-4 mb-4">
+            <div class="card chart-card">
+                <div class="card-header bg-white">
+                    <h5 class="card-title mb-0"><i class="fas fa-users-cog me-2"></i>Tipos de Usuario</h5>
+                </div>
+                <div class="card-body">
+                    <div id="graficoUsuarios"></div>
+                    <div class="error-message" id="errorGraficoUsuarios"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+let graficoTrabajos, graficoCalificaciones, graficoContactos, graficoUsuarios;
+
+function mostrarError(elementId, mensaje) {
+    const elemento = document.getElementById(elementId);
+    if (elemento) {
+        elemento.textContent = mensaje;
+        elemento.style.display = 'block';
+    }
+}
+
+function limpiarError(elementId) {
+    const elemento = document.getElementById(elementId);
+    if (elemento) {
+        elemento.textContent = '';
+        elemento.style.display = 'none';
+    }
+}
+//cargando las estadistticas generales aqui>
+function cargarEstadisticas() {
+    fetch('Consultas/estadisticas_generales.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            
+            // actualizando las tarjetas
+            document.getElementById('totalUsuarios').textContent = data.usuarios || 0;
+            document.getElementById('totalTrabajos').textContent = data.trabajos || 0;
+            document.getElementById('totalContactos').textContent = data.contactos || 0;
+            document.getElementById('totalOpiniones').textContent = data.opiniones || 0;
+            
+            // limpieza
+            limpiarError('errorUsuarios');
+            limpiarError('errorTrabajos');
+            limpiarError('errorContactos');
+            limpiarError('errorOpiniones');
+        })
+        .catch(error => {
+            console.error('Error al cargar estadísticas:', error);
+            mostrarError('errorUsuarios', 'Error al cargar datos');
+        });
+}
+
+// cargando grafico de trabajos aqui>
+function cargarGraficoTrabajos() {
+    fetch('Consultas/trabajos_Xcategoria.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            
+            if (graficoTrabajos) {
+                graficoTrabajos.destroy();
+            }
+            
+            graficoTrabajos = Highcharts.chart('graficoTrabajos', {
+                chart: {
+                    type: 'column',
+                    backgroundColor: 'transparent'
+                },
+                title: {
+                    text: null
+                },
+                xAxis: {
+                    categories: data.categorias,
+                    title: { text: 'Categorías' }
+                },
+                yAxis: {
+                    min: 0,
+                    title: { text: 'Cantidad de Trabajos' }
+                },
+                tooltip: {
+                    shared: true,
+                    valueSuffix: ' trabajos'
+                },
+                plotOptions: {
+                    column: {
+                        dataLabels: { enabled: true },
+                        colorByPoint: true,
+                        colors: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#6f42c1']
+                    }
+                },
+                series: [{
+                    name: 'Trabajos',
+                    data: data.datos
+                }],
+                credits: { enabled: false }
+            });
+            
+            limpiarError('errorGraficoTrabajos');
+        })
+        .catch(error => {
+            console.error('Error al cargar gráfico de trabajos:', error);
+            mostrarError('errorGraficoTrabajos', 'Error al cargar gráfico');
+        });
+}
+
+// carhando raficos de calificaciones
+function cargarGraficoCalificaciones() {
+    fetch('Consultas/calificaciones.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            
+            if (graficoCalificaciones) {
+                graficoCalificaciones.destroy();
+            }
+            
+            graficoCalificaciones = Highcharts.chart('graficoCalificaciones', {
+                chart: {
+                    type: 'pie',
+                    backgroundColor: 'transparent'
+                },
+                title: {
+                    text: null
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.y}</b> opiniones ({point.percentage:.1f}%)'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.y}'
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Calificaciones',
+                    colorByPoint: true,
+                    data: data
+                }],
+                credits: { enabled: false }
+            });
+            
+            limpiarError('errorGraficoCalificaciones');
+        })
+        .catch(error => {
+            console.error('Error al cargar gráfico de calificaciones:', error);
+            mostrarError('errorGraficoCalificaciones', 'Error al cargar gráfico');
+        });
+}
+//cargando graficos de los contactos con la empresa
+function cargarGraficoContactos() {
+    fetch('Consultas/contacto_Xmes.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                throw new Error(data.error);
+            }
+       
+            if (graficoContactos) {
+                graficoContactos.destroy();
+            }
+            
+            graficoContactos = Highcharts.chart('graficoContactos', {
+                chart: {
+                    type: 'line',
+                    backgroundColor: 'transparent'
+                },
+                title: {
+                    text: null
+                },
+                xAxis: {
+                    categories: data.meses,
+                    title: { text: 'Meses' }
+                },
+                yAxis: {
+                    title: { text: 'Número de Contactos' },
+                    min: 0
+                },
+                tooltip: {
+                    shared: true,
+                    valueSuffix: ' contactos'
+                },
+                plotOptions: {
+                    line: {
+                        dataLabels: { enabled: true },
+                        enableMouseTracking: true,
+                        color: '#007bff'
+                    }
+                },
+                series: [{
+                    name: 'Contactos',
+                    data: data.datos
+                }],
+                credits: { enabled: false }
+            });
+            
+            limpiarError('errorGraficoContactos');
+        })
+        .catch(error => {
+            console.error('Error al cargar gráfico de contactos:', error);
+            mostrarError('errorGraficoContactos', 'Error al cargar gráfico');
+        });
+}
+
+// cargando los tipos de usuraios
+function cargarGraficoUsuarios() {
+    fetch('Consultas/tipos_usuario.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                throw new Error(data.error);
+            }
+
+            if (graficoUsuarios) {
+                graficoUsuarios.destroy();
+            }
+            
+            graficoUsuarios = Highcharts.chart('graficoUsuarios', {
+                chart: {
+                    type: 'pie',
+                    backgroundColor: 'transparent'
+                },
+                title: {
+                    text: null
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.y}</b> usuarios ({point.percentage:.1f}%)'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.y}'
+                        },
+                        size: '80%'
+                    }
+                },
+                series: [{
+                    name: 'Tipo',
+                    colorByPoint: true,
+                    data: data
+                }],
+                credits: { enabled: false }
+            });
+            
+            limpiarError('errorGraficoUsuarios');
+        })
+        .catch(error => {
+            console.error('Error al cargar gráfico de usuarios:', error);
+            mostrarError('errorGraficoUsuarios', 'Error al cargar gráfico');
+        });
+}
+
+function actualizarDashboard() {
+    console.log('Actualizando dashboard...');
+
+    const btnActualizar = document.querySelector('button[onclick="actualizarDashboard()"]');
+    if (btnActualizar) {
+        btnActualizar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cargando...';
+        btnActualizar.disabled = true;
+    }
+
+    cargarEstadisticas();
+    cargarGraficoTrabajos();
+    cargarGraficoCalificaciones();
+    cargarGraficoContactos();
+    cargarGraficoUsuarios();
+
+    setTimeout(() => {
+        if (btnActualizar) {
+            btnActualizar.innerHTML = '<i class="fas fa-sync-alt"></i> Actualizar';
+            btnActualizar.disabled = false;
+        }
+    }, 2000);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Iniciando dashboard...');
+    actualizarDashboard();
+    
+    // funcion opcional para intervalo de tiempo de autorecarga
+    /*setInterval(() => {
+        console.log('Actualización automática...');
+        actualizarDashboard();
+    }, 30000);
+    */
+});
+</script>
+
+</body>
+</html>
