@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             session_start();
             $_SESSION["usuario_id"] = $usuario["id"];
             $_SESSION["nombre"] = $usuario["nombre"];
-            header("Location: trabajos.php");
+            header("Location: Dashboard.html");
             exit;
         } elseif ($clave === $usuario["clave"] && $usuario["es_admin"] != 1) {
             session_start();

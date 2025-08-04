@@ -38,7 +38,7 @@
     <div
       class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
-      <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+      <a href="index.php" class="logo d-flex align-items-center me-auto me-xl-0">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.webp" alt=""> -->
         <h1 class="sitename">Construcciones Cano</h1>
@@ -130,7 +130,7 @@
         <div class="row gx-5 align-items-center">
           <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
             <div class="about-image position-relative">
-              <img src="assets/img/about/about-portrait-1.webp" class="img-fluid rounded-4 shadow-sm" alt="About Image"
+              <img src="assets\img\Trabajos\ImgGeneral.jpg" class="img-fluid rounded-4 shadow-sm" alt="About Image"
                 loading="lazy">
               <div class="experience-badge">
                 <span class="years">20+</span>
@@ -165,8 +165,6 @@
                   </div>
                 </div>
               </div>
-
-              <a href="#" class="btn btn-primary mt-4">Ver Servicios</a>
             </div>
           </div>
         </div>
@@ -328,10 +326,6 @@
                   En Construcciones Cano integramos innovación, experiencia técnica y atención personalizada para
                   entregar proyectos de alta calidad en tiempo récord.
                 </p>
-                <a href="services.html" class="service-btn">
-                  Ver Todos los Servicios
-                  <i class="bi bi-arrow-right"></i>
-                </a>
               </div>
             </div>
           </div>
@@ -343,12 +337,8 @@
               <div class="service-icon">
                 <i class="bi bi-palette"></i>
               </div>
-              <a href="service-details.html"
-                class="card-action d-flex align-items-center justify-content-center rounded-circle">
-                <i class="bi bi-arrow-up-right"></i>
-              </a>
               <h3>
-                <a href="service-details.html">
+                <a>
                   Construccion <span>Residencial</span>
                 </a>
               </h3>
@@ -363,12 +353,8 @@
               <div class="service-icon">
                 <i class="bi bi-gem"></i>
               </div>
-              <a href="service-details.html"
-                class="card-action d-flex align-items-center justify-content-center rounded-circle">
-                <i class="bi bi-arrow-up-right"></i>
-              </a>
               <h3>
-                <a href="service-details.html">
+                <a>
                   Obras <span>Comerciales</span>
                 </a>
               </h3>
@@ -383,12 +369,8 @@
               <div class="service-icon">
                 <i class="bi bi-megaphone"></i>
               </div>
-              <a href="service-details.html"
-                class="card-action d-flex align-items-center justify-content-center rounded-circle">
-                <i class="bi bi-arrow-up-right"></i>
-              </a>
               <h3>
-                <a href="service-details.html">
+                <a>
                   Remodelaciones <span>y ampliaciones</span>
                 </a>
               </h3>
@@ -403,12 +385,8 @@
               <div class="service-icon">
                 <i class="bi bi-code-slash"></i>
               </div>
-              <a href="service-details.html"
-                class="card-action d-flex align-items-center justify-content-center rounded-circle">
-                <i class="bi bi-arrow-up-right"></i>
-              </a>
               <h3>
-                <a href="service-details.html">
+                <a>
                   Supervision <span>de obras</span>
                 </a>
               </h3>
@@ -423,12 +401,8 @@
               <div class="service-icon">
                 <i class="bi bi-graph-up"></i>
               </div>
-              <a href="service-details.html"
-                class="card-action d-flex align-items-center justify-content-center rounded-circle">
-                <i class="bi bi-arrow-up-right"></i>
-              </a>
               <h3>
-                <a href="service-details.html">
+                <a>
                   Instalaciones <span>Electricas</span>
                 </a>
               </h3>
@@ -442,12 +416,8 @@
               <div class="service-icon">
                 <i class="bi bi-camera-video"></i>
               </div>
-              <a href="service-details.html"
-                class="card-action d-flex align-items-center justify-content-center rounded-circle">
-                <i class="bi bi-arrow-up-right"></i>
-              </a>
               <h3>
-                <a href="service-details.html">
+                <a>
                   Redes <span>hidrosanitarias</span>
                 </a>
               </h3>
@@ -629,7 +599,7 @@ $categorias = $conexion->query($sql_categorias);
                       data-glightbox="title: <?php echo htmlspecialchars($trabajo['titulo']); ?>; description: <?php echo htmlspecialchars($trabajo['descripcion']); ?>">
                       <i class="bi bi-arrows-angle-expand"></i>
                     </a>
-                    <a href="portafolio-details2.html?id=trabajo<?php echo $trabajo['id']; ?>">
+                    <a href="portafolio-details2.php?#trabajo-<?php echo $trabajo['id']; ?>">
                       <i class="bi bi-arrow-right"></i>
                     </a>
                   </div>
@@ -834,10 +804,9 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="container footer-top">
       <div class="row gy-4">
         <div class="col-lg-5 col-md-12 footer-about">
-          <a href="index.html" class="logo d-flex align-items-center">
+          <a href="index.php" class="logo d-flex align-items-center">
             <span class="sitename">Construcciones Cano</span>
           </a>
-          <p>texto faltante</p>
           <div class="social-links d-flex mt-4">
             <a href=""><i class="bi bi-twitter-x"></i></a>
             <a href=""><i class="bi bi-facebook"></i></a>
